@@ -5,19 +5,9 @@ st.set_page_config(
     page_icon="♻️",
 )
 
-#config
-st.set_page_config(page_title="ValènciaNetApp", page_icon="♻️", layout="wide")
-# local_css("style/style.css")
+st.write("# Benvingut/da a València Neta! 👋")
 
-
-with st.container():
-    st.subheader("Hola! Som València neta:")
-    st.title("L'aplicació que t'ajudarà a reciclar més fàcilment")
-    st.write(
-        "Som unes estudiants de Ciència de dades i aquesta és la nostra app amb la que volem ajudar el mediambient mitjançant la tecnologia."  ("[Conéixer més >>](https://valerapp.com/)")
-    )
-
-st.sidebar.success("Selecciona una pantalla.")
+st.sidebar.success("Select a demo above.")
 
 st.markdown(
     """
