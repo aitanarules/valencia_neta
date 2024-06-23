@@ -84,7 +84,8 @@ if image_green:
 # Contenedor marrón con carrusel de imágenes
 st.markdown("### Contenedor marrón")
 images_brown = [
-    {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"}]
+    {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"},
+    {"file": "images/contenedor_marron_2.jpg", "caption": "Material vegetal"}]
 
 selected_image_brown = st.select_slider(
     "Tipos de residuos que van al contenedor marrón",
