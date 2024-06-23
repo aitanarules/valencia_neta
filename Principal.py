@@ -155,8 +155,8 @@ st.markdown(
     """
     ## ¿Quieres saber más?
     En la izquierda podrás encontrar diferentes páginas con las que podrás:
-    - Conocer estadísticas de reciclaje y contenedores [Ir a Aprende]()
-    - Visualizar los contenedores que hay en València [Ir a Mapa](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Mapa)
-    - Encontrar la ruta más rápida para acceder a uno de ellos [Ir a Buscador](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Buscador)
+    - Conocer estadísticas de reciclaje y contenedores: [Ir a Aprende](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Aprende)
+    - Visualizar los contenedores que hay en València: [Ir a Mapa](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Mapa)
+    - Encontrar la ruta más rápida para acceder a uno de ellos: [Ir a Buscador](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Buscador)
     """
 )
