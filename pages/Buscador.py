@@ -4,7 +4,7 @@ import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
 import random
-
+from streamlit_folium import st_folium
 import streamlit as st
 import folium
 
@@ -52,11 +52,11 @@ except Exception as e:
 # Filtrar el DataFrame por el tipo de contenedor seleccionado
 contenedores_gdf = contenedores_gdf[contenedores_gdf['tipo'] == tipo_seleccionado]
 
-# Seleccionar aleatoriamente 1000 filas manteniendo la proporción original de tipos de contenedor
-if len(contenedores_gdf) > 1000:
-    contenedores_sampled = contenedores_gdf.groupby('tipo', group_keys=False).apply(lambda x: x.sample(n=1000//len(tipos_contenedores)))
+# Seleccionar aleatoriamente el 10% de las filas
+if len(contenedores_gdf) > 0:
+    contenedores_sampled = contenedores_gdf.sample(frac=0.1, random_state=1)
 else:
-    contenedores_sampled = contenedores_gdf.sample(n=min(1000, len(contenedores_gdf)))
+    st.warning("No se encontraron filas para el tipo de contenedor seleccionado.")
 
 # Verificar si el grafo contiene nodos
 nodes, edges = ox.graph_to_gdfs(graph)
@@ -74,6 +74,20 @@ def find_nearest_node(graph, point):
             min_dist = dist
             nearest_node = node
     return nearest_node
+
+
+
+# Encontrar el nodo más cercano en la red de calles al punto de origen
+try:
+    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0], method='balltree')
+    st.write(f"Nodo de origen encontrado: {origen_node}")
+except ImportError as e:
+    st.error(f"Error al encontrar el nodo más cercano: {e}. Asegúrate de tener scikit-learn instalado.")
+    st.stop()
+except Exception as e:
+    st.error(f"Error inesperado al encontrar el nodo más cercano: {e}")
+    st.stop()
+
 
 # Inicializar variables para encontrar la ruta óptima
 distancia_minima = float("inf")
