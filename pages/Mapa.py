@@ -5,17 +5,16 @@ st.set_page_config(page_title="Mapa", page_icon="📈")
 
 st.markdown("# Mapa d'ubicacions")
 st.sidebar.header("Mapa")
-st.write("Aquest mapa de València mostra les ubicacions dels diferents contenedors i papereres distribuïdes a València.")
+st.write("""Aquest mapa de València mostra les ubicacions dels diferents contenedors i papereres distribuïdes a València. Les dades s'han obtingut 
+         del [`Portal de dades obertes de València`](https://valencia.opendatasoft.com/pages/home/) """)
 
-# Leer el archivo HTML y cargarlo en la aplicación de Streamlit
-html_file_path = '../mapa_contenedores_valencia_2.html'
+html_file_path = "C:\Users\34686\3CD - 23_24\EDM\recicla\mapa_contenedores_valencia_2.html"
 
-# Asegurarse de que el archivo HTML exista
 try:
     with open(html_file_path, 'r', encoding='utf-8') as html_file:
         html_content = html_file.read()
         components.html(html_content, height=600, scrolling=True)
 except FileNotFoundError:
-    st.error("El archivo HTML del mapa no se encuentra. Por favor, verifica la ruta y asegúrate de que el archivo haya sido generado correctamente.")
+    st.error("Hi ha un problema: no es troba l'HTML del mapa. Revisa la ruta.")
 
 st.button("Re-run")
