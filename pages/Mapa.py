@@ -8,7 +8,7 @@ st.sidebar.header("Mapa")
 st.write("Aquest mapa de València mostra les ubicacions dels diferents contenedors i papereres distribuïdes a València.")
 
 # Leer el archivo HTML y cargarlo en la aplicación de Streamlit
-html_file_path = 'mapa_contenedores_valencia.html'
+html_file_path = '../mapa_contenedores_valencia_2.html'
 
 # Asegurarse de que el archivo HTML exista
 try:
