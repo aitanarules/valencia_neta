@@ -15,6 +15,22 @@ st.markdown("# Ruta al Contenedor más Cercano")
 # Coordenada de origen
 coordenada_origen = (39.469, -0.376)  # Latitud, Longitud
 
+# Tipos de contenedores disponibles
+tipos_contenedores = {
+    'ACEITE',
+    'ENVASES LIGEROS',
+    'ORGANICO',
+    'PAPEL / CARTON',
+    'PAPELERAS',
+    'PILAS',
+    'RESTO',
+    'ROPA',
+    'VIDRIO'
+}
+
+# Widget de selección del tipo de contenedor
+tipo_seleccionado = st.selectbox("Selecciona el tipo de contenedor", list(tipos_contenedores))
+
 # Cargar los datos
 try:
     contenedores_gdf = gpd.read_file('./processed_data/reciclatge.geojson')
@@ -25,6 +41,9 @@ except FileNotFoundError as e:
 except Exception as e:
     st.error(f"Error inesperado al cargar los archivos de datos: {e}")
     st.stop()
+
+# Filtrar el DataFrame por el tipo de contenedor seleccionado
+contenedores_gdf = contenedores_gdf[contenedores_gdf['tipo'] == tipo_seleccionado]
 
 # Verificar si el grafo contiene nodos
 nodes, edges = ox.graph_to_gdfs(graph)
@@ -82,35 +101,4 @@ for idx, contenedor in contenedores_gdf.iterrows():
     except nx.NetworkXNoPath:
         st.warning(f"No se encontró una ruta hacia el contenedor en índice {idx}.")
     except Exception as e:
-        st.error(f"Error al calcular la ruta hacia el contenedor en índice {idx}: {e}")
-
-# Visualizar la ruta óptima si se encontró
-if ruta_optima:
-    st.markdown("### Ruta óptima encontrada")
-    st.write(f"Distancia aproximada: {distancia_minima:.2f} metros.")
-
-    # Crear un mapa centrado en la coordenada de origen
-    mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
-
-    # Añadir el marcador del punto de origen
-    folium.Marker(
-        location=[coordenada_origen[0], coordenada_origen[1]],
-        popup='Origen',
-        icon=folium.Icon(color='blue', icon='info-sign')
-    ).add_to(mapa)
-
-    # Añadir el marcador del contenedor cercano
-    if contenedor_cercano is not None:
-        folium.Marker(
-            location=[contenedor_cercano.y, contenedor_cercano.x],
-            popup='Contenedor Cercano',
-            icon=folium.Icon(color='green', icon='info-sign')
-        ).add_to(mapa)
-
-    # Añadir la ruta óptima
-    ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
-    folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
-
-    # Mostrar el mapa
-    st.markdown("### Mapa de la Ruta Óptima")
-    st_folium(mapa)
+        st.er
