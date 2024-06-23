@@ -75,23 +75,19 @@ def find_nearest_node(graph, point):
             nearest_node = node
     return nearest_node
 
-# Encontrar el nodo más cercano en la red de calles al punto de origen
-try:
-    origen_node = find_nearest_node(graph, coordenada_origen)
-    st.write(f"Nodo de origen encontrado: {origen_node}")
-except Exception as e:
-    st.error(f"Error al encontrar el nodo más cercano: {e}")
-    st.stop()
-
 # Inicializar variables para encontrar la ruta óptima
 distancia_minima = float("inf")
 ruta_optima = None
 contenedor_cercano = None
 
+# Barra de progreso
+progress_bar = st.sidebar.progress(0)
+status_text = st.sidebar.empty()
+
 # Calcular la ruta más corta
-for idx, contenedor in contenedores_sampled.iterrows():
+for idx, contenedor in enumerate(contenedores_sampled.iterrows()):
     try:
-        destino_geom = contenedor['geometry']
+        destino_geom = contenedor[1]['geometry']
 
         # Convertir a WGS84 si es necesario
         if contenedores_gdf.crs != "EPSG:4326":
@@ -110,6 +106,11 @@ for idx, contenedor in contenedores_sampled.iterrows():
             distancia_minima = distancia_ruta
             ruta_optima = ruta
             contenedor_cercano = destino_geom
+
+        # Actualizar la barra de progreso
+        progress = int((idx + 1) / len(contenedores_sampled) * 100)
+        progress_bar.progress(progress)
+        status_text.text(f"Explorando rutas... {progress}% completado")
 
     except nx.NetworkXNoPath:
         st.warning(f"No se encontró una ruta hacia el contenedor en índice {idx}.")
