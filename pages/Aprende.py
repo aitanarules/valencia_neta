@@ -39,7 +39,6 @@ try:
         )
         st.altair_chart(chart, use_container_width=True)
 
-        st.write( """Como puedes ver, en la mayoría de los países existe una tendencia creciente: cada vez se producen más residuos. ¿Qué pasaría si ninguno fuese reciclado? El planeta estaría lleno de deshechos."""
 )
 
 
