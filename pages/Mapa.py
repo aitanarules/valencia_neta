@@ -9,8 +9,13 @@ st.sidebar.header("Mapa")
 st.write("""Este mapa de València muestra las ubicaciones de los diferentes contenedores y papeleras repartidos por la ciudad. Los datos han sido
          obtenidos desde el [Portal de dades obertes de València](https://valencia.opendatasoft.com/pages/home/)""")
 
+import streamlit as st
+from streamlit_folium import folium_static
+import geopandas as gpd
+import folium
+
 # Leer el archivo GeoJSON
-gdf = gpd.read_file("""reciclatge.geojson""")
+gdf = gpd.read_file('./reciclatge.geojson')
 
 # Crear un mapa centrado en Valencia
 valencia_coords = [39.4699, -0.3763]
@@ -57,3 +62,11 @@ for idx, row in gdf.iterrows():
 
 # Añadir el control de capas al mapa
 folium.LayerControl(collapsed=False).add_to(mapa)
+
+# Mostrar el mapa en Streamlit
+st.set_page_config(page_title="Mapa", page_icon="🗺️")
+st.markdown("# Mapa de ubicaciones")
+st.sidebar.header("Mapa")
+st.write("""Este mapa de València muestra las ubicaciones de los diferentes contenedores y papeleras repartidos por la ciudad. Los datos han sido
+         obtenidos desde el [Portal de dades obertes de València](https://valencia.opendatasoft.com/pages/home/)""")
+folium_static(mapa)
