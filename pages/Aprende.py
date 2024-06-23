@@ -28,7 +28,7 @@ try:
         # Suponiendo que queremos mostrar 'Value' en unidades de 1000 tonnes
         data_selected['Value'] = data_selected['Value']
 
-        st.write("### Cantidad de de residuos registrados (en toneladas)")
+        st.write("### Cantidad de residuos registrados (en toneladas)")
         st.write(data_selected)
 
         chart = (
@@ -42,7 +42,7 @@ try:
         )
         st.altair_chart(chart, use_container_width=True)
 
-except Exception as e:
+except BaseException as e:
     st.error(
-        "Ha ocurrido un error {}".format(e)
+        "Ha ocurrido un error: {}".format(e)
     )
