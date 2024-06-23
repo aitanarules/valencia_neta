@@ -20,7 +20,6 @@ st.write("""Esta página te ayuda a encontrar el contenedor más cercano de Val�
 coordenada_origen_default = (39.469, -0.376)  # Latitud, Longitud
 
 try:
-    a
     # Obtener la dirección del usuario
     user_address = st.text_input("Introduce tu dirección en Valencia (ej. Pl. de l'Ajuntament, Ciutat Vella, 46002 València, Valencia):")
 
@@ -37,9 +36,10 @@ try:
     else:
         st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
         coordenada_origen = coordenada_origen_default
-except GeocoderUnavailable:
+except 'GeocoderUnavailable':
     st.write("Ahora mismo nuestro módulo de localización está teniendo problemas. Puedes probar nuestra función de búsqueda con las coordenadas por defecto (parten desde el Ayunamiento de València)")
-
+except:
+    st.write("Estamos afrontando un problema no contemplado.")
 
 
 
