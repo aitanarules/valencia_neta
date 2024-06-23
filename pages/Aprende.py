@@ -10,7 +10,7 @@ st.write(
     """This demo shows how to use `st.write` to visualize Pandas DataFrames."""
 )
 
-df = pd.read_csv("/data/amount_wasted.csv")
+df = pd.read_csv("./data/amount_wasted.csv")
 
 try:
     countries = st.multiselect(
