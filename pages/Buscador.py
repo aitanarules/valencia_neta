@@ -7,10 +7,12 @@ from streamlit_folium import st_folium
 from geopy.geocoders import Nominatim
 
 # Configuración de la página
-st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
+st.set_page_config(page_title="Buscador", page_icon="🛤️")
 
 # Título de la página
-st.markdown("# Ruta al Contenedor más Cercano")
+st.markdown("# Ruta al más rápida al reciclaje")
+st.write("""Esta página te ayuda a encontrar el contenedor más cercano de València. Para ello, debes introducir tu ubicación actual. Intenta
+         que sea lo más precisa posible para conseguir mejores resultados. Estos pueden tardar varios minutos.""")
 
 # Obtener la dirección del usuario
 user_address = st.text_input("Introduce tu dirección en Valencia (ej. Pl. de l'Ajuntament, Ciutat Vella, 46002 València, Valencia):")

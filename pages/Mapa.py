@@ -8,7 +8,7 @@ st.sidebar.header("Mapa")
 st.write("""Este mapa de València muestra las ubicaciones de los diferentes contenedores y papeleras repartidos por la ciudad. Los datos han sido
          obtenidos desde el [`Portal de dades obertes de València`](https://valencia.opendatasoft.com/pages/home/) """)
 
-html_file_path = "./mapa_contenedores_valencia.html"
+html_file_path = "mapa_contenedores_valencia.html"
 
 try:
     with open(html_file_path, 'r', encoding='utf-8') as html_file:
@@ -18,7 +18,7 @@ except FileNotFoundError:
     st.error("No se encuentra la página.")
 
 
-html_file_path_2 = "../processed_data/selecciona_contenedores.html"
+html_file_path_2 = "selecciona_contenedores.html"
 
 try:
     with open(html_file_path_2, 'r', encoding='utf-8') as html_file:
