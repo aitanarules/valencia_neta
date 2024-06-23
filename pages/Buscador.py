@@ -2,6 +2,8 @@ import osmnx as ox
 import networkx as nx
 import geopandas as gpd
 from shapely.geometry import Point
+import pandas as pd
+import random
 
 import streamlit as st
 import folium
@@ -15,6 +17,27 @@ st.markdown("# Ruta al Contenedor más Cercano")
 # Coordenada de origen
 coordenada_origen = (39.469, -0.376)  # Latitud, Longitud
 
+# Tipos de contenedores disponibles
+tipos_contenedores = {
+    'ACEITE',
+    'ENVASES LIGEROS',
+    'ORGANICO',
+    'PAPEL / CARTON',
+    'PAPELERAS',
+    'PILAS',
+    'RESTO',
+    'ROPA',
+    'VIDRIO'
+}
+
+# Widget de selección del tipo de contenedor con confirmación
+tipo_seleccionado = st.selectbox("Selecciona el tipo de contenedor", list(tipos_contenedores))
+confirmado = st.checkbox("Confirmar selección de tipo de contenedor")
+
+if not confirmado:
+    st.warning("Por favor, confirma la selección del tipo de contenedor para proceder.")
+    st.stop()
+
 # Cargar los datos
 try:
     contenedores_gdf = gpd.read_file('./processed_data/reciclatge.geojson')
@@ -25,6 +48,15 @@ except FileNotFoundError as e:
 except Exception as e:
     st.error(f"Error inesperado al cargar los archivos de datos: {e}")
     st.stop()
+
+# Filtrar el DataFrame por el tipo de contenedor seleccionado
+contenedores_gdf = contenedores_gdf[contenedores_gdf['tipo'] == tipo_seleccionado]
+
+# Seleccionar aleatoriamente 1000 filas manteniendo la proporción original de tipos de contenedor
+if len(contenedores_gdf) > 1000:
+    contenedores_sampled = contenedores_gdf.groupby('tipo', group_keys=False).apply(lambda x: x.sample(n=1000//len(tipos_contenedores)))
+else:
+    contenedores_sampled = contenedores_gdf.sample(n=min(1000, len(contenedores_gdf)))
 
 # Verificar si el grafo contiene nodos
 nodes, edges = ox.graph_to_gdfs(graph)
@@ -57,7 +89,7 @@ ruta_optima = None
 contenedor_cercano = None
 
 # Calcular la ruta más corta
-for idx, contenedor in contenedores_gdf.iterrows():
+for idx, contenedor in contenedores_sampled.iterrows():
     try:
         destino_geom = contenedor['geometry']
 
