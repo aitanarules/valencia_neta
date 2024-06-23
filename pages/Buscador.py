@@ -129,32 +129,35 @@ for idx, contenedor in enumerate(contenedores_sampled.iterrows()):
         st.error(f"Error al calcular la ruta hacia el contenedor en índice {idx}: {e}")
 
 # Visualizar la ruta óptima si se encontró
+# Visualizar la ruta óptima si se encontró
 if ruta_optima:
     st.markdown("### Ruta óptima encontrada")
     st.write(f"Distancia aproximada: {distancia_minima:.2f} metros.")
 
-    # Crear un mapa centrado en la coordenada de origen
-    mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
-
-    # Añadir el marcador del punto de origen
-    folium.Marker(
-        location=[coordenada_origen[0], coordenada_origen[1]],
-        popup='Origen',
-        icon=folium.Icon(color='blue', icon='info-sign')
-    ).add_to(mapa)
-
-    # Añadir el marcador del contenedor cercano
+    # Crear un mapa centrado en el origen y el contenedor cercano
     if contenedor_cercano is not None:
+        mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
+
+        # Añadir el marcador del punto de origen
+        folium.Marker(
+            location=[coordenada_origen[0], coordenada_origen[1]],
+            popup='Origen',
+            icon=folium.Icon(color='blue', icon='info-sign')
+        ).add_to(mapa)
+
+        # Añadir el marcador del contenedor cercano
         folium.Marker(
             location=[contenedor_cercano.y, contenedor_cercano.x],
             popup='Contenedor Cercano',
             icon=folium.Icon(color='green', icon='info-sign')
         ).add_to(mapa)
 
-    # Añadir la ruta óptima
-    ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
-    folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
+        # Añadir la ruta óptima
+        ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
+        folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
 
-    # Mostrar el mapa
-    st.markdown("### Mapa de la Ruta Óptima")
-    st_folium(mapa)
+        # Mostrar el mapa
+        st.markdown("### Mapa de la Ruta Óptima")
+        st_folium(mapa)
+    else:
+        st.warning("No se encontró un contenedor cercano para visualizar la ruta.")
