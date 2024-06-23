@@ -42,7 +42,7 @@ with col1:
     ]
 
     selected_image_yellow = st.select_slider(
-        "Selecciona un tipo de residuo para el contenedor amarillo",
+        "Tipos de residuo que van al contenedor amarillo",
         options=[img['caption'] for img in images_yellow]
     )
 
@@ -60,7 +60,7 @@ with col2:
     ]
 
     selected_image_blue = st.select_slider(
-        "Selecciona un tipo de residuo para el contenedor azul",
+        "Tipos de residuo que van al contenedor azul",
         options=[img['caption'] for img in images_blue]
     )
 
@@ -78,7 +78,7 @@ with col1:
     ]
 
     selected_image_green = st.select_slider(
-        "Selecciona un tipo de residuo para el contenedor verde",
+        "Tipos de residuo que van al contenedor verde",
         options=[img['caption'] for img in images_green]
     )
 
@@ -96,7 +96,7 @@ with col2:
     ]
 
     selected_image_brown = st.select_slider(
-        "Selecciona un tipo de residuo para el contenedor marrón",
+        "Tipos de residuo que van al contenedor marrón",
         options=[img['caption'] for img in images_brown]
     )
 
@@ -115,7 +115,7 @@ with col1:
     ]
 
     selected_image_gray = st.select_slider(
-        "Selecciona un tipo de residuo para el contenedor gris",
+        "Tipos de residuo que van al contenedor gris",
         options=[img['caption'] for img in images_gray]
     )
 
