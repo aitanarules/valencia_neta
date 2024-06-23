@@ -8,24 +8,25 @@ st.set_page_config(
 )
 
 # Título de la página
-st.write("# Benvingut/da a València Neta! 👋")
+st.write("# Bienvenido/a a València Neta! 👋")
 
 # Mensaje en la barra lateral
-st.sidebar.success("Selecciona una pàgina.")
+st.sidebar.success("Selecciona una página.")
 
 # Información inicial
 st.markdown(
     """
-    Bienvenido/a a València Neta, tu guía para un reciclaje eficaz. A continuación, te mostramos los diferentes tipos de contenedores de reciclaje y ejemplos de lo que puedes depositar en cada uno.
+    Esta página es una guía para un reciclaje eficaz. A continuación, te mostramos los diferentes tipos de contenedores de reciclaje y ejemplos de lo que puedes depositar en cada uno.
     """
 )
 
 # Información adicional y enlaces
 st.markdown(
     """
-    ### Quieres saber más?
-    - [Sitio oficial de Streamlit](https://streamlit.io)
-    - [Documentación de Streamlit](https://docs.streamlit.io)
-    - [Foros de la comunidad](https://discuss.streamlit.io)
+    ### ¿Quieres saber más?
+    En la izquierda podrás encontrar diferentes páginas con las que podrás:
+    - Conocer qué residuos deben ir en cada contenedor [Ir a Aprende]()
+    - Visualizar los contenedores que hay en València [Ir a Mapa](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Mapa)
+    - Encontrar la ruta más rápida para acceder a uno de ellos [Ir a Buscador](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Buscador)
     """
 )

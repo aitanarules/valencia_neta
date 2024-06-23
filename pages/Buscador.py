@@ -1,8 +1,6 @@
 import osmnx as ox
 import networkx as nx
 import geopandas as gpd
-from shapely.geometry import Point
-import pandas as pd
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
@@ -15,7 +13,7 @@ st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
 st.markdown("# Ruta al Contenedor más Cercano")
 
 # Obtener la dirección del usuario
-user_address = st.text_input("Introduce tu dirección en Valencia (ej. Calle Mayor 5, Valencia):")
+user_address = st.text_input("Introduce tu dirección en Valencia (ej. Pl. de l'Ajuntament, Ciutat Vella, 46002 València, Valencia):")
 
 # Geocodificación de la dirección a coordenadas
 geolocator = Nominatim(user_agent="recycling_app")
@@ -173,6 +171,6 @@ if ruta_optima:
     folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
 
     # Mostrar el mapa
-    st.markdown("### Mapa de la Ruta Óptima")
+    st.markdown("### Mapa de la ruta óptima")
     st.markdown(f"Distancia aproximada: {distancia_minima:.2f} metros.")
     st_folium(mapa)
