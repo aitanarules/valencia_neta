@@ -111,7 +111,7 @@ with col1:
     images_gray = [
         {"file": "images/contenedor_gris_1.jpg", "caption": "Cerámica"},
         {"file": "images/contenedor_gris_2.jpg", "caption": "Juguetes rotos"},
-        {"file": "images/contenedor_gris_3.jpg", "caption": "Pañales"}
+        {"file": "images/contenedor_gris_3.webp", "caption": "Pañales"}
     ]
 
     selected_image_gray = st.select_slider(
@@ -128,8 +128,8 @@ with col1:
 with col2:
     st.markdown("## Otros contenedores")
     images_battery = [
-        {"file": "images/contenedor_pilas.jpg", "caption": "Contenedor de pilas y baterías"},
-        {"file": "images/contenedor_ropa.jpg", "caption": "Contenedor de ropa"},
+        {"file": "images/contenedor_pilas.jpeg", "caption": "Contenedor de pilas y baterías"},
+        {"file": "images/contenedor_ropa.webp", "caption": "Contenedor de ropa"},
         {"file": "images/contenedor_aceite.jpg", "caption": "Contenedor de aceite"}
 
     ]
