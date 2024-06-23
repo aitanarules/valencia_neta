@@ -8,7 +8,9 @@ st.markdown("# Aprende con datos")
 st.sidebar.header("Aprende")
 st.write(
     """Esta página muestra gráficamente las cantidades desperdiciadas registradas en cada país por año. Los datos están en toneladas.
-    Los datos han sido recabados de la siguiente [página](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)"""
+    Los datos han sido recabados de la siguiente [página](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)
+    
+    El año 1998 solo representa datos relativos a residuos farmacéuticos."""
 )
 
 df = pd.read_csv("./data/amount_wasted.csv")

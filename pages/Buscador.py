@@ -36,10 +36,8 @@ try:
     else:
         st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
         coordenada_origen = coordenada_origen_default
-except 'GeocoderUnavailable':
-    st.write("Ahora mismo nuestro módulo de localización está teniendo problemas. Puedes probar nuestra función de búsqueda con las coordenadas por defecto (parten desde el Ayunamiento de València)")
 except:
-    st.write("Estamos afrontando un problema no contemplado.")
+    st.write("Estamos afrontando un problema no contemplado, disculpe las molestias.")
 
 
 
