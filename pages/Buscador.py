@@ -34,10 +34,13 @@ try:
             st.success(f"Ubicación encontrada: {location.address}")
             coordenada_origen = (location.latitude, location.longitude)
     else:
-        st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
+        st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto (Ayuntamiento de València).")
         coordenada_origen = coordenada_origen_default
 except:
-    st.write("Estamos afrontando un problema no contemplado, disculpe las molestias.")
+    st.write("Nuestro módulo de localización no está disponible, disculpe las molestias.")
+    st.warning("Puedes probar nuestra aplicación con la ubicación por defecto (Ayuntamiento de València)")
+    coordenada_origen = coordenada_origen_default
+
 
 
 
