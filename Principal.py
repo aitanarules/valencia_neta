@@ -21,10 +21,13 @@ st.markdown(
     """
 )
 
-# Función para cargar imágenes con verificación de existencia
-def load_image(image_path):
+# Función para cargar y redimensionar imágenes con verificación de existencia
+
+def load_and_resize_image(image_path, size=(300, 300)):
     if os.path.exists(image_path):
-        return Image.open(image_path)
+        image = Image.open(image_path)
+        image = image.resize(size, Image.ANTIALIAS)
+        return image
     else:
         st.error(f"No se encuentra la imagen en la ruta: {image_path}")
         return None
@@ -47,7 +50,7 @@ with col1:
     )
 
     image_file_yellow = next(img['file'] for img in images_yellow if img['caption'] == selected_image_yellow)
-    image_yellow = load_image(image_file_yellow)
+    image_yellow = load_and_resize_image(image_file_yellow)
     if image_yellow:
         st.image(image_yellow, caption=f"Contenedor amarillo: {selected_image_yellow}")
 
@@ -65,7 +68,7 @@ with col2:
     )
 
     image_file_blue = next(img['file'] for img in images_blue if img['caption'] == selected_image_blue)
-    image_blue = load_image(image_file_blue)
+    image_blue = load_and_resize_image(image_file_blue)
     if image_blue:
         st.image(image_blue, caption=f"Contenedor azul: {selected_image_blue}")
 
@@ -83,7 +86,7 @@ with col1:
     )
 
     image_file_green = next(img['file'] for img in images_green if img['caption'] == selected_image_green)
-    image_green = load_image(image_file_green)
+    image_green = load_and_resize_image(image_file_green)
     if image_green:
         st.image(image_green, caption=f"Contenedor verde: {selected_image_green}")
 
@@ -101,7 +104,7 @@ with col2:
     )
 
     image_file_brown = next(img['file'] for img in images_brown if img['caption'] == selected_image_brown)
-    image_brown = load_image(image_file_brown)
+    image_brown = load_and_resize_image(image_file_brown)
     if image_brown:
         st.image(image_brown, caption=f"Contenedor marrón: {selected_image_brown}")
 
@@ -120,9 +123,10 @@ with col1:
     )
 
     image_file_gray = next(img['file'] for img in images_gray if img['caption'] == selected_image_gray)
-    image_gray = load_image(image_file_gray)
+    image_gray = load_and_resize_image(image_file_gray)
     if image_gray:
         st.image(image_gray, caption=f"Contenedor gris: {selected_image_gray}")
+
 
 
 with col2:
