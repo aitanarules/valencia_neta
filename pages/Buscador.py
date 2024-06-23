@@ -75,11 +75,9 @@ def find_nearest_node(graph, point):
             nearest_node = node
     return nearest_node
 
-
-
 # Encontrar el nodo más cercano en la red de calles al punto de origen
 try:
-    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0], method='balltree')
+    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0])
     st.write(f"Nodo de origen encontrado: {origen_node}")
 except ImportError as e:
     st.error(f"Error al encontrar el nodo más cercano: {e}. Asegúrate de tener scikit-learn instalado.")
@@ -87,7 +85,6 @@ except ImportError as e:
 except Exception as e:
     st.error(f"Error inesperado al encontrar el nodo más cercano: {e}")
     st.stop()
-
 
 # Inicializar variables para encontrar la ruta óptima
 distancia_minima = float("inf")
