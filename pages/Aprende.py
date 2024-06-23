@@ -39,8 +39,6 @@ try:
         )
         st.altair_chart(chart, use_container_width=True)
 
-)
-
 
 except Exception as e:
     st.error(
