@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import os
 
 # Configuración de la página
 st.set_page_config(
@@ -20,6 +21,14 @@ st.markdown(
     """
 )
 
+# Función para cargar imágenes con verificación de existencia
+def load_image(image_path):
+    if os.path.exists(image_path):
+        return Image.open(image_path)
+    else:
+        st.error(f"No se encuentra la imagen en la ruta: {image_path}")
+        return None
+
 # Contenedor amarillo con carrusel de imágenes
 st.markdown("## Contenedor amarillo")
 images_yellow = [
@@ -34,8 +43,9 @@ selected_image_yellow = st.select_slider(
 )
 
 image_file_yellow = next(img['file'] for img in images_yellow if img['caption'] == selected_image_yellow)
-image_yellow = Image.open(image_file_yellow)
-st.image(image_yellow, caption=f"Contenedor amarillo: {selected_image_yellow}")
+image_yellow = load_image(image_file_yellow)
+if image_yellow:
+    st.image(image_yellow, caption=f"Contenedor amarillo: {selected_image_yellow}")
 
 # Contenedor azul con carrusel de imágenes
 st.markdown("## Contenedor azul")
@@ -50,8 +60,9 @@ selected_image_blue = st.select_slider(
 )
 
 image_file_blue = next(img['file'] for img in images_blue if img['caption'] == selected_image_blue)
-image_blue = Image.open(image_file_blue)
-st.image(image_blue, caption=f"Contenedor azul: {selected_image_blue}")
+image_blue = load_image(image_file_blue)
+if image_blue:
+    st.image(image_blue, caption=f"Contenedor azul: {selected_image_blue}")
 
 # Contenedor verde con carrusel de imágenes
 st.markdown("## Contenedor verde")
@@ -66,13 +77,15 @@ selected_image_green = st.select_slider(
 )
 
 image_file_green = next(img['file'] for img in images_green if img['caption'] == selected_image_green)
-image_green = Image.open(image_file_green)
-st.image(image_green, caption=f"Contenedor verde: {selected_image_green}")
+image_green = load_image(image_file_green)
+if image_green:
+    st.image(image_green, caption=f"Contenedor verde: {selected_image_green}")
 
 # Contenedor marrón con carrusel de imágenes
 st.markdown("## Contenedor marrón")
 images_brown = [
     {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"},
+    {"file": "images/contenedor_marron_2.jpg", "caption": "Material vegetal"}
 ]
 
 selected_image_brown = st.select_slider(
@@ -81,8 +94,9 @@ selected_image_brown = st.select_slider(
 )
 
 image_file_brown = next(img['file'] for img in images_brown if img['caption'] == selected_image_brown)
-image_brown = Image.open(image_file_brown)
-st.image(image_brown, caption=f"Contenedor marrón: {selected_image_brown}")
+image_brown = load_image(image_file_brown)
+if image_brown:
+    st.image(image_brown, caption=f"Contenedor marrón: {selected_image_brown}")
 
 # Contenedor gris con carrusel de imágenes
 st.markdown("## Contenedor gris")
@@ -98,8 +112,9 @@ selected_image_gray = st.select_slider(
 )
 
 image_file_gray = next(img['file'] for img in images_gray if img['caption'] == selected_image_gray)
-image_gray = Image.open(image_file_gray)
-st.image(image_gray, caption=f"Contenedor gris: {selected_image_gray}")
+image_gray = load_image(image_file_gray)
+if image_gray:
+    st.image(image_gray, caption=f"Contenedor gris: {selected_image_gray}")
 
 # Información adicional y enlaces
 st.markdown(
