@@ -7,7 +7,8 @@ st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
 st.markdown("# Aprende con datos Demo")
 st.sidebar.header("Aprende")
 st.write(
-    """Esta página muestra la cantidad de residuos registrados en cada país por año. Los datos están representados en 1000 toneladas. En el año 1998 solo se incluyen residuos farmacéuticos"""
+    """Esta página muestra la cantidad de residuos registrados en cada país por año. Los datos están representados en 1000 toneladas. En el año 1998 solo se incluyen residuos farmacéuticos.
+    Los datos utilizados para generar esta visualización se encuentra en [UNdata](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)"""
 )
 
 

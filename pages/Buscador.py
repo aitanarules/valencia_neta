@@ -11,6 +11,7 @@ st.set_page_config(page_title="Buscador", page_icon="🛤️")
 
 # Título de la página
 st.markdown("# Ruta más rápida al reciclaje")
+st.sidebar.header("Búsqueda")
 st.write("""Esta página te ayuda a encontrar el contenedor más cercano de València. Para ello, debes introducir tu ubicación actual. Intenta
          que sea lo más precisa posible para conseguir mejores resultados. Estos pueden tardar varios minutos.""")
 

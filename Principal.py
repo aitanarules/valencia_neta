@@ -17,7 +17,7 @@ st.sidebar.success("Selecciona una página.")
 # Información inicial
 st.markdown(
     """
-    Esta página es una guía para un reciclaje eficaz. A continuación, te mostramos los diferentes tipos de contenedores de reciclaje y ejemplos de lo que puedes depositar en cada uno.
+    Esta página es una guía para un reciclaje eficaz. A continuación, te mostramos los diferentes tipos de contenedores de reciclaje y ejemplos de lo que puedes depositar en cada uno. Información extraída de [Las Provincias](https://www.lasprovincias.es/valencia-ciudad/basura-tirar-contenedor-colores-valencia-20191107170153-nt.html?ref=https://www.lasprovincias.es/valencia-ciudad/basura-tirar-contenedor-colores-valencia-20191107170153-nt.html).
     """
 )
 
@@ -35,6 +35,7 @@ col1, col2 = st.columns(2)
 # Contenedor amarillo con carrusel de imágenes en la primera columna
 with col1:
     st.markdown("## Contenedor amarillo")
+    st.markdown("El depósito amarillo sigue siendo el del plástico. En este tiraremos las botellas de productos de limpieza, las latas, las bandejas de corcho blanco, las tapas y patones de pláticos y metal, las bolsas de plástico, los briks, las botellas de agua y refrescos y también los envaes de yogures y flanes.")
     images_yellow = [
         {"file": "images/contenedor_amarillo_1.jpg", "caption": "Botellas de plástico"},
         {"file": "images/contenedor_amarillo_2.jpg", "caption": "Latas de bebida"},
@@ -54,6 +55,7 @@ with col1:
 # Contenedor azul con carrusel de imágenes en la segunda columna
 with col2:
     st.markdown("## Contenedor azul")
+    st.markdown("El papel y el cartón van a este contenedor. Así que tiraremos las cajas de zapatos, las revistas y periódicos, las hueveras de cartón, las bolsas de paple, las cajas de cartón y los tubos de cartón.")
     images_blue = [
         {"file": "images/contenedor_azul_1.jpg", "caption": "Papeles y revistas"},
         {"file": "images/contenedor_azul_2.jpg", "caption": "Cajas de cartón"}
@@ -72,6 +74,7 @@ with col2:
 # Contenedor verde con carrusel de imágenes en la primera columna
 with col1:
     st.markdown("## Contenedor verde")
+    st.markdown("Todo tipo de vidrio hay que depositarlo en este contenedor: las botellas, los frascos de cosmética y los tarros.")
     images_green = [
         {"file": "images/contenedor_verde_1.jpg", "caption": "Botellas de vidrio"},
         {"file": "images/contenedor_verde_2.jpg", "caption": "Frascos de vidrio"}
@@ -90,6 +93,7 @@ with col1:
 # Contenedor marrón con carrusel de imágenes en la segunda columna
 with col2:
     st.markdown("## Contenedor marrón")
+    st.markdown("Este ha sido el último contenedor en llegar a las calles de Valencia. Genera cierta confusión ya que muchos de estos desechos anteriormente se tiraban al general (gris). Al contenedor marrón hay que tirar el cartón manchado (por ejemplo, las cajas de pizzas), los tapones de corcho, los residuos de alimentos, verduras y frutas, las servilletas sucias, las cáscaras de huevo, los posos de café y los restos de flores y plantas.")
     images_brown = [
         {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"},
         {"file": "images/contenedor_marron_2.jpg", "caption": "Material vegetal"}
@@ -108,6 +112,7 @@ with col2:
 # Contenedor gris con carrusel de imágenes en la primera columna
 with col1:
     st.markdown("## Contenedor gris")
+    st.markdown("El que empezó siendo como el contenedor al que tirar todo lo que no fuera vidrio, plástico o papel, ahora tiene una nueva vida y más concreta. Las famosas toallitas higiénicas se tiran en este depósito, junto con los tampones y compresas, los restos de cerámica y los pañales, chupetes y biberones.")
     images_gray = [
         {"file": "images/contenedor_gris_1.jpg", "caption": "Cerámica"},
         {"file": "images/contenedor_gris_2.jpg", "caption": "Juguetes rotos"},
