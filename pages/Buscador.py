@@ -25,7 +25,14 @@ except FileNotFoundError:
     st.stop()
 
 # Encontrar el nodo más cercano en la red de calles al punto de origen
-origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0])
+try:
+    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0])
+except ImportError as e:
+    st.error(f"Error al encontrar el nodo más cercano: {e}")
+    st.stop()
+except Exception as e:
+    st.error(f"Error inesperado al encontrar el nodo más cercano: {e}")
+    st.stop()
 
 # Inicializar variables para encontrar la ruta óptima
 distancia_minima = float("inf")
