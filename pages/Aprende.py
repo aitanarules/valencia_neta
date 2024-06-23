@@ -2,13 +2,13 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
+st.set_page_config(page_title="Aprende", page_icon="📊")
 
-st.markdown("# Aprende con datos Demo")
+st.markdown("# Aprende con datos")
 st.sidebar.header("Aprende")
 st.write(
     """Esta página muestra la cantidad de residuos registrados en cada país por año. Los datos están representados en 1000 toneladas. En el año 1998 solo se incluyen residuos farmacéuticos.
-    Los datos utilizados para generar esta visualización se encuentra en [UNdata](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)"""
+    Los datos utilizados para generar esta visualización se encuentra en [UNdata](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)."""
 )
 
 
@@ -16,7 +16,7 @@ df = pd.read_csv("./data/amount_wasted_original.csv")
 
 try:
     countries = st.multiselect(
-        "Escoge países", df['Country or Area'].unique(), ["Spain", "Andorra"]
+        "Escoge países", df['Country or Area'].unique(), ["Spain"]
     )
     if not countries:
         st.error("Escoge al menos un país, por favor.")
@@ -38,6 +38,10 @@ try:
             )
         )
         st.altair_chart(chart, use_container_width=True)
+
+        st.write( """Como puedes ver, en la mayoría de los países existe una tendencia creciente: cada vez se producen más residuos. ¿Qué pasaría si ninguno fuese reciclado? El planeta estaría lleno de deshechos."""
+)
+
 
 except Exception as e:
     st.error(
