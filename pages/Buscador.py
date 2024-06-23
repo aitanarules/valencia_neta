@@ -4,7 +4,6 @@ import geopandas as gpd
 from shapely.geometry import Point
 
 import streamlit as st
-from streamlit_folium import st_folium
 import folium
 
 # Configuración de la página
@@ -13,22 +12,32 @@ st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
 # Título de la página
 st.markdown("# Ruta al Contenedor más Cercano")
 
-# Coordenada de origen (por ejemplo, centro de Valencia)
+# Coordenada de origen
 coordenada_origen = (39.469, -0.376)  # Latitud, Longitud
 
 # Cargar los datos
 try:
     contenedores_gdf = gpd.read_file('./processed_data/reciclatge.geojson')
     graph = ox.load_graphml(filepath="./processed_data/valencia_street_graph.graphml")
-except FileNotFoundError:
-    st.error("Error: No se encontraron los archivos de datos necesarios. Por favor, verifica las rutas y vuelve a intentarlo.")
+except FileNotFoundError as e:
+    st.error(f"Error al cargar los archivos de datos: {e}")
+    st.stop()
+except Exception as e:
+    st.error(f"Error inesperado al cargar los archivos de datos: {e}")
+    st.stop()
+
+# Verificar si el grafo contiene nodos
+nodes, edges = ox.graph_to_gdfs(graph)
+if len(nodes) == 0:
+    st.error("El grafo cargado no contiene nodos.")
     st.stop()
 
 # Encontrar el nodo más cercano en la red de calles al punto de origen
 try:
-    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0])
+    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0], method='balltree')
+    st.write(f"Nodo de origen encontrado: {origen_node}")
 except ImportError as e:
-    st.error(f"Error al encontrar el nodo más cercano: {e}")
+    st.error(f"Error al encontrar el nodo más cercano: {e}. Asegúrate de tener scikit-learn instalado.")
     st.stop()
 except Exception as e:
     st.error(f"Error inesperado al encontrar el nodo más cercano: {e}")
@@ -51,7 +60,7 @@ for idx, contenedor in contenedores_gdf.iterrows():
         destino_x, destino_y = destino_geom.x, destino_geom.y
 
         # Encontrar el nodo más cercano en la red de calles al punto de destino
-        destino_node = ox.distance.nearest_nodes(graph, X=destino_x, Y=destino_y)
+        destino_node = ox.distance.nearest_nodes(graph, X=destino_x, Y=destino_y, method='balltree')
 
         # Calcular la ruta más corta usando NetworkX
         ruta = nx.shortest_path(graph, origen_node, destino_node, weight='length')
@@ -94,8 +103,7 @@ if ruta_optima:
     ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
     folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
 
-    # Mostrar el mapa en Streamlit
-    st_folium(mapa, width=700, height=500)
+    # Mostrar el mapa
+    st.markdown("### Mapa de la Ruta Óptima")
+    st_folium(mapa)
 
-else:
-    st.error("No se encontró una ruta óptima hacia ningún contenedor cercano.")
