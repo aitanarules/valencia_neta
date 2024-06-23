@@ -28,7 +28,7 @@ try:
     location = geolocator.geocode(user_address)
     if location:
         if "Valencia" not in location.address:
-            st.warning("La dirección proporcionada no está en Valencia. Usando la ubicación por defecto.")
+            st.warning("La dirección proporcionada no está en Valencia. Usando la ubicación por defecto (Ayuntamiento de València).")
             coordenada_origen = coordenada_origen_default
         else:
             st.success(f"Ubicación encontrada: {location.address}")
@@ -156,8 +156,6 @@ for idx, contenedor in enumerate(contenedores_sampled.iterrows()):
 
 # Visualizar la ruta óptima si se encontró
 if ruta_optima:
-    st.markdown("### Ruta óptima encontrada")
-    st.write(f"Distancia aproximada: {distancia_minima:.2f} metros.")
 
     # Crear un mapa centrado en la coordenada de origen
     mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
