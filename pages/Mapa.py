@@ -2,6 +2,7 @@ from streamlit_folium import folium_static
 import streamlit as st
 import geopandas as gpd
 import folium
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Mapa", page_icon="🗺️")
 st.markdown("# Mapa de ubicaciones")
