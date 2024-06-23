@@ -97,7 +97,8 @@ def find_nearest_node(graph, point):
 # Encontrar el nodo más cercano en la red de calles al punto de origen
 try:
     origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0])
-    st.write(f"Nodo de origen encontrado: {origen_node}")
+    # st.write(f"Nodo de origen encontrado: {origen_node}")
+    st.write("Búsqueda iniciada. Este proceso puede tardar unos minutos.")
 except ImportError as e:
     st.error(f"Error al encontrar el nodo más cercano: {e}. Asegúrate de tener scikit-learn instalado.")
     st.stop()
@@ -174,3 +175,6 @@ if ruta_optima:
     st.markdown("### Mapa de la ruta óptima")
     st.markdown(f"Distancia aproximada: {distancia_minima:.2f} metros.")
     st_folium(mapa)
+
+
+st.button("Volver a cargar")
