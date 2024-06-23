@@ -125,6 +125,25 @@ with col1:
         st.image(image_gray, caption=f"Contenedor gris: {selected_image_gray}")
 
 
+with col2:
+    st.markdown("## Otros contenedores")
+    images_battery = [
+        {"file": "images/contenedor_pilas.jpg", "caption": "Contenedor de pilas y baterías"},
+        {"file": "images/contenedor_ropa.jpg", "caption": "Contenedor de ropa"},
+        {"file": "images/contenedor_aceite.jpg", "caption": "Contenedor de aceite"}
+
+    ]
+
+    selected_image_battery = st.select_slider(
+        "Otros contenedores que también existen",
+        options=[img['caption'] for img in images_battery]
+    )
+
+    image_file_battery = next(img['file'] for img in images_battery if img['caption'] == selected_image_battery)
+    image_battery = load_and_resize_image(image_file_battery)
+    if image_battery:
+        st.image(image_battery, caption=f"Otro tipo de contenedores: {selected_image_battery}")
+
 
 # Información adicional y enlaces
 st.markdown(
