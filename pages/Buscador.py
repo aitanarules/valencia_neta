@@ -3,10 +3,10 @@ import networkx as nx
 import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
-import random
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
+from geopy.geocoders import Nominatim
 
 # Configuración de la página
 st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
@@ -14,8 +14,26 @@ st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
 # Título de la página
 st.markdown("# Ruta al Contenedor más Cercano")
 
-# Coordenada de origen
-coordenada_origen = (39.469, -0.376)  # Latitud, Longitud
+# Obtener la dirección del usuario
+user_address = st.text_input("Introduce tu dirección en Valencia (ej. Calle Mayor 5, Valencia):")
+
+# Geocodificación de la dirección a coordenadas
+geolocator = Nominatim(user_agent="recycling_app")
+location = geolocator.geocode(user_address)
+
+# Coordenada de origen predeterminada
+coordenada_origen_default = (39.469, -0.376)  # Latitud, Longitud
+
+if location:
+    if "Valencia" not in location.address:
+        st.warning("La dirección proporcionada no está en Valencia. Usando la ubicación por defecto.")
+        coordenada_origen = coordenada_origen_default
+    else:
+        st.success(f"Ubicación encontrada: {location.address}")
+        coordenada_origen = (location.latitude, location.longitude)
+else:
+    st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
+    coordenada_origen = coordenada_origen_default
 
 # Tipos de contenedores disponibles
 tipos_contenedores = {
