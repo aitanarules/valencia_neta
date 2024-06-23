@@ -2,7 +2,7 @@ import streamlit as st
 import geopandas as gpd
 
 # Verificar si el archivo existe
-file_path = './reciclatge.geojson'
+file_path = './pages/reciclatge.geojson'
 try:
     # Intentar leer el archivo
     gdf = gpd.read_file(file_path)
