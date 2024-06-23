@@ -10,7 +10,7 @@ st.write("""Este mapa de València muestra las ubicaciones de los diferentes con
          obtenidos desde el [Portal de dades obertes de València](https://valencia.opendatasoft.com/pages/home/)""")
 
 # Leer el archivo GeoJSON
-gdf = gpd.read_file('C:/Users/34686/3CD - 23_24/EDM/recicla/processed_data/reciclatge.geojson')
+gdf = gpd.read_file("""C:/Users/34686/3CD - 23_24/EDM/recicla/processed_data/reciclatge.geojson""")
 
 # Crear un mapa centrado en Valencia
 valencia_coords = [39.4699, -0.3763]
