@@ -9,7 +9,7 @@ st.write("""Aquest mapa de València mostra les ubicacions dels diferents conten
          del [`Portal de dades obertes de València`](https://valencia.opendatasoft.com/pages/home/) """)
 
 html_file_path = "mapa_contenedores_valencia.html"
-
+html_file_path = "mapa.html"
 try:
     with open(html_file_path, 'r', encoding='utf-8') as html_file:
         html_content = html_file.read()
