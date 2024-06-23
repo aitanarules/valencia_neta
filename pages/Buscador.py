@@ -14,26 +14,34 @@ st.markdown("# Ruta al más rápida al reciclaje")
 st.write("""Esta página te ayuda a encontrar el contenedor más cercano de València. Para ello, debes introducir tu ubicación actual. Intenta
          que sea lo más precisa posible para conseguir mejores resultados. Estos pueden tardar varios minutos.""")
 
-# Obtener la dirección del usuario
-user_address = st.text_input("Introduce tu dirección en Valencia (ej. Pl. de l'Ajuntament, Ciutat Vella, 46002 València, Valencia):")
-
-# Geocodificación de la dirección a coordenadas
-geolocator = Nominatim(user_agent="recycling_app")
-location = geolocator.geocode(user_address)
 
 # Coordenada de origen predeterminada
+
 coordenada_origen_default = (39.469, -0.376)  # Latitud, Longitud
 
-if location:
-    if "Valencia" not in location.address:
-        st.warning("La dirección proporcionada no está en Valencia. Usando la ubicación por defecto.")
-        coordenada_origen = coordenada_origen_default
+try:
+    a
+    # Obtener la dirección del usuario
+    user_address = st.text_input("Introduce tu dirección en Valencia (ej. Pl. de l'Ajuntament, Ciutat Vella, 46002 València, Valencia):")
+
+    # Geocodificación de la dirección a coordenadas
+    geolocator = Nominatim(user_agent="recycling_app")
+    location = geolocator.geocode(user_address)
+    if location:
+        if "Valencia" not in location.address:
+            st.warning("La dirección proporcionada no está en Valencia. Usando la ubicación por defecto.")
+            coordenada_origen = coordenada_origen_default
+        else:
+            st.success(f"Ubicación encontrada: {location.address}")
+            coordenada_origen = (location.latitude, location.longitude)
     else:
-        st.success(f"Ubicación encontrada: {location.address}")
-        coordenada_origen = (location.latitude, location.longitude)
-else:
-    st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
-    coordenada_origen = coordenada_origen_default
+        st.warning("No se pudo encontrar la ubicación. Usando la ubicación por defecto.")
+        coordenada_origen = coordenada_origen_default
+except GeocoderUnavailable:
+    st.write("Ahora mismo nuestro módulo de localización está teniendo problemas. Puedes probar nuestra función de búsqueda con las coordenadas por defecto (parten desde el Ayunamiento de València)")
+
+
+
 
 # Tipos de contenedores disponibles
 tipos_contenedores = {
