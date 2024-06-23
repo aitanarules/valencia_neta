@@ -25,11 +25,11 @@ st.write("""Este mapa es equivalente al que se muestra en la franaja superior y,
          para observar solo los de un tipo. Puede tardar varios minutos en cargar. """)
 
 
-html_file_path = "./processed_data/selecciona_contenedores.html"
+# html_file_path = "./processed_data/selecciona_contenedores.html"
 
-try:
-    with open(html_file_path, 'r', encoding='utf-8') as html_file:
-        html_content = html_file.read()
-        components.html(html_content, height=600, scrolling=True)
-except FileNotFoundError:
-    st.error("No se encuentra la página.")
+# try:
+#     with open(html_file_path, 'r', encoding='utf-8') as html_file:
+#         html_content = html_file.read()
+#         components.html(html_content, height=600, scrolling=True)
+# except FileNotFoundError:
+#     st.error("No se encuentra la página.")
