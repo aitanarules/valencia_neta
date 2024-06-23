@@ -10,7 +10,7 @@ st.write("""Este mapa de València muestra las ubicaciones de los diferentes con
          obtenidos desde el [Portal de dades obertes de València](https://valencia.opendatasoft.com/pages/home/)""")
 
 # Leer el archivo GeoJSON
-gdf = gpd.read_file('./processed_data/reciclatge.geojson')
+gdf = gpd.read_file('./reciclatge.geojson')
 
 # Crear un mapa centrado en Valencia
 valencia_coords = [39.4699, -0.3763]
@@ -21,10 +21,10 @@ iconos = {
     'Aceite': ('green', 'oil-can'),
     'Envases ligeros': ('orange', 'recycle'),
     'Organico': ('lightgreen', 'leaf'),
-    'Papel / carton': ('blue', 'file-text'),
-    'Papeleras': ('purple', 'trash'),
+    'Papel / carton': ('blue', 'file-text-o'),
+    'Papeleras': ('purple', 'trash-o'),
     'Pilas': ('gray', 'battery-quarter'),
-    'Resto': ('darkred', 'globe'),
+    'Resto': ('darkred', 'trash'),
     'Ropa': ('pink', 'tshirt'),
     'Vidrio': ('green', 'glass-martini')
 }
@@ -32,22 +32,28 @@ iconos = {
 # Añadir contenedores al mapa
 for idx, row in gdf.iterrows():
     tipo = row['tipo'].capitalize()
-    location = [row['lat'], row['long']]
-    
+
+    # Verificar si 'geo_point_2d' tiene las claves 'lat' y 'lon'
+    if 'geo_point_2d' in row and 'lat' in row['geo_point_2d'] and 'lon' in row['geo_point_2d']:
+        location = [row['geo_point_2d']['lat'], row['geo_point_2d']['lon']]
+    else:
+        # Manejar caso donde no hay coordenadas válidas
+        continue
+
     # Obtener el color y el icono correspondiente al tipo
     if tipo in iconos:
         color, icon = iconos[tipo]
     else:
         color, icon = 'gray', 'info-sign'
-    
-    folium.Marker(
+
+    marker = folium.Marker(
         location=location,
         popup=f"Tipo: {tipo}",
         icon=folium.Icon(color=color, icon=icon, prefix='fa')
-    ).add_to(mapa)
+    )
+
+    # Agregar el marcador al mapa
+    marker.add_to(mapa)
 
 # Añadir el control de capas al mapa
 folium.LayerControl(collapsed=False).add_to(mapa)
-
-# Mostrar el mapa en Streamlit
-folium_static(mapa)
