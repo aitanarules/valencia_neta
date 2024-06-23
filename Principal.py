@@ -30,7 +30,7 @@ def load_image(image_path):
         return None
 
 # Contenedor amarillo con carrusel de imágenes
-st.markdown("## Contenedor amarillo")
+st.markdown("### Contenedor amarillo")
 images_yellow = [
     {"file": "images/contenedor_amarillo_1.jpg", "caption": "Botellas de plástico"},
     {"file": "images/contenedor_amarillo_2.jpg", "caption": "Latas de bebida"},
@@ -38,7 +38,7 @@ images_yellow = [
 ]
 
 selected_image_yellow = st.select_slider(
-    "Selecciona un tipo de residuo para el contenedor amarillo",
+    "Tipos de residuos que van al contenedor amarillo",
     options=[img['caption'] for img in images_yellow]
 )
 
@@ -48,14 +48,14 @@ if image_yellow:
     st.image(image_yellow, caption=f"Contenedor amarillo: {selected_image_yellow}")
 
 # Contenedor azul con carrusel de imágenes
-st.markdown("## Contenedor azul")
+st.markdown("### Contenedor azul")
 images_blue = [
     {"file": "images/contenedor_azul_1.jpg", "caption": "Papeles y revistas"},
     {"file": "images/contenedor_azul_2.jpg", "caption": "Cajas de cartón"}
 ]
 
 selected_image_blue = st.select_slider(
-    "Selecciona un tipo de residuo para el contenedor azul",
+    "Tipos de residuos que van al contenedor azul",
     options=[img['caption'] for img in images_blue]
 )
 
@@ -65,14 +65,14 @@ if image_blue:
     st.image(image_blue, caption=f"Contenedor azul: {selected_image_blue}")
 
 # Contenedor verde con carrusel de imágenes
-st.markdown("## Contenedor verde")
+st.markdown("### Contenedor verde")
 images_green = [
     {"file": "images/contenedor_verde_1.jpg", "caption": "Botellas de vidrio"},
     {"file": "images/contenedor_verde_2.jpg", "caption": "Frascos de vidrio"}
 ]
 
 selected_image_green = st.select_slider(
-    "Selecciona un tipo de residuo para el contenedor verde",
+    "Tipos de residuos que van al contenedor verde",
     options=[img['caption'] for img in images_green]
 )
 
@@ -82,14 +82,12 @@ if image_green:
     st.image(image_green, caption=f"Contenedor verde: {selected_image_green}")
 
 # Contenedor marrón con carrusel de imágenes
-st.markdown("## Contenedor marrón")
+st.markdown("### Contenedor marrón")
 images_brown = [
-    {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"},
-    {"file": "images/contenedor_marron_2.jpg", "caption": "Material vegetal"}
-]
+    {"file": "images/contenedor_marron_1.jpg", "caption": "Restos de comida"}]
 
 selected_image_brown = st.select_slider(
-    "Selecciona un tipo de residuo para el contenedor marrón",
+    "Tipos de residuos que van al contenedor marrón",
     options=[img['caption'] for img in images_brown]
 )
 
@@ -99,7 +97,7 @@ if image_brown:
     st.image(image_brown, caption=f"Contenedor marrón: {selected_image_brown}")
 
 # Contenedor gris con carrusel de imágenes
-st.markdown("## Contenedor gris")
+st.markdown("### Contenedor gris")
 images_gray = [
     {"file": "images/contenedor_gris_1.jpg", "caption": "Cerámica"},
     {"file": "images/contenedor_gris_2.jpg", "caption": "Juguetes rotos"},
@@ -107,7 +105,7 @@ images_gray = [
 ]
 
 selected_image_gray = st.select_slider(
-    "Selecciona un tipo de residuo para el contenedor gris",
+    "Tipos de residuos que van al contenedor gris",
     options=[img['caption'] for img in images_gray]
 )
 
@@ -119,7 +117,7 @@ if image_gray:
 # Información adicional y enlaces
 st.markdown(
     """
-    ### ¿Quieres saber más?
+    ## ¿Quieres saber más?
     En la izquierda podrás encontrar diferentes páginas con las que podrás:
     - Conocer estadísticas de reciclaje y contenedores [Ir a Aprende]()
     - Visualizar los contenedores que hay en València [Ir a Mapa](https://valencianeta-csow8jrrvjysugbmymzp44.streamlit.app/Mapa)
