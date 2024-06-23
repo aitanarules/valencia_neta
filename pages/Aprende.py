@@ -4,20 +4,21 @@ import altair as alt
 
 st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
 
-st.markdown("# DataFrame Demo")
-st.sidebar.header("DataFrame Demo")
+st.markdown("# Aprende con datos")
+st.sidebar.header("Aprende")
 st.write(
-    """This demo shows how to use `st.write` to visualize Pandas DataFrames."""
+    """Esta página muestra gráficamente las cantidades desperdiciadas registradas en cada país por año. Los datos están en toneladas.
+    Los datos han sido recabados de la siguiente [página](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)"""
 )
 
 df = pd.read_csv("./data/amount_wasted.csv")
 
 try:
     countries = st.multiselect(
-        "Choose countries", df['Country or Area'].unique(), ["Spain", "Andorra"]
+        "Escoge país", df['Country or Area'].unique(), ["Spain", "Andorra"]
     )
     if not countries:
-        st.error("Please select at least one country.")
+        st.error("Selecciona al menos un país, por favor.")
     else:
         data_selected = df[df['Country or Area'].isin(countries)]
 
@@ -25,7 +26,7 @@ try:
         # Suponiendo que queremos mostrar 'Value' en unidades de 1000 tonnes
         data_selected['Value'] = data_selected['Value']
 
-        st.write("### Agricultural Production (1000 tonnes)")
+        st.write("### Cantidad de de residuos registrados (en toneladas)")
         st.write(data_selected)
 
         chart = (
@@ -41,5 +42,5 @@ try:
 
 except Exception as e:
     st.error(
-        "An error occurred: {}".format(e)
+        "Ha ocurrido un error {}".format(e)
     )

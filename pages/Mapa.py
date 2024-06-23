@@ -20,9 +20,9 @@ try:
 except FileNotFoundError:
     st.error("No se encuentra la página.")
 
-st.markdown("# Mapa de ubicaciones interactivo")
-st.write("""Este mapa es equivalente al que se muestra en la franaja superior y, adicionalmente, puedes filtrar los contenedores
-         para observar solo los de un tipo. Puede tardar varios minutos en cargar. """)
+# st.markdown("# Mapa de ubicaciones interactivo")
+# st.write("""Este mapa es equivalente al que se muestra en la franaja superior y, adicionalmente, puedes filtrar los contenedores
+#          para observar solo los de un tipo. Puede tardar varios minutos en cargar. """)
 
 
 # html_file_path = "./processed_data/selecciona_contenedores.html"
