@@ -4,32 +4,29 @@ import altair as alt
 
 st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
 
-st.markdown("# Aprende con datos")
-st.sidebar.header("Aprende")
+st.markdown("# DataFrame Demo")
+st.sidebar.header("DataFrame Demo")
 st.write(
-    """Esta página muestra gráficamente las cantidades desperdiciadas registradas en cada país por año. Los datos están en toneladas.
-    Los datos han sido recabados de la siguiente [página](https://data.un.org/Data.aspx?d=ENV&f=variableID%3a1814)
-    
-    El año 1998 solo representa datos relativos a residuos farmacéuticos."""
+    """This demo shows how to use `st.write` to visualize Pandas DataFrames."""
 )
 
-df = pd.read_csv("./data/amount_wasted.csv")
+
+df = pd.read_csv("./data/amount_wasted_original.csv")
 
 try:
     countries = st.multiselect(
-        "Escoge país", df['Country or Area'].unique(), ["Spain", "Andorra"]
+        "Choose countries", df['Country or Area'].unique(), ["Albania", "Algeria"]
     )
     if not countries:
-        st.error("Selecciona al menos un país, por favor.")
+        st.error("Please select at least one country.")
     else:
-        # Usar .loc para evitar SettingWithCopyWarning
-        data_selected = df.loc[df['Country or Area'].isin(countries)]
+        data_selected = df[df['Country or Area'].isin(countries)]
 
         # Convertir unidades si es necesario
-        # Suponiendo que queremos mostrar 'Value' en unidades de 1000 toneladas
-        data_selected.loc[:, 'Value'] = data_selected['Value']
+        # Suponiendo que queremos mostrar 'Value' en unidades de 1000 tonnes
+        data_selected['Value'] = data_selected['Value']
 
-        st.write("### Cantidad de residuos registrados (en toneladas)")
+        st.write("### Agricultural Production (1000 tonnes)")
         st.write(data_selected)
 
         chart = (
@@ -43,7 +40,7 @@ try:
         )
         st.altair_chart(chart, use_container_width=True)
 
-except BaseException as e:
+except Exception as e:
     st.error(
-        "Ha ocurrido un error: {}".format(e)
+        "An error occurred: {}".format(e)
     )
