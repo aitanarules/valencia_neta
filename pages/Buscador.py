@@ -32,15 +32,23 @@ if len(nodes) == 0:
     st.error("El grafo cargado no contiene nodos.")
     st.stop()
 
+# Función para encontrar el nodo más cercano
+def find_nearest_node(graph, point):
+    min_dist = float('inf')
+    nearest_node = None
+    for node in graph.nodes():
+        dist = ox.distance.great_circle_vec(graph.nodes[node]['y'], graph.nodes[node]['x'], point[1], point[0])
+        if dist < min_dist:
+            min_dist = dist
+            nearest_node = node
+    return nearest_node
+
 # Encontrar el nodo más cercano en la red de calles al punto de origen
 try:
-    origen_node = ox.distance.nearest_nodes(graph, X=coordenada_origen[1], Y=coordenada_origen[0], method='balltree')
+    origen_node = find_nearest_node(graph, coordenada_origen)
     st.write(f"Nodo de origen encontrado: {origen_node}")
-except ImportError as e:
-    st.error(f"Error al encontrar el nodo más cercano: {e}. Asegúrate de tener scikit-learn instalado.")
-    st.stop()
 except Exception as e:
-    st.error(f"Error inesperado al encontrar el nodo más cercano: {e}")
+    st.error(f"Error al encontrar el nodo más cercano: {e}")
     st.stop()
 
 # Inicializar variables para encontrar la ruta óptima
@@ -60,7 +68,7 @@ for idx, contenedor in contenedores_gdf.iterrows():
         destino_x, destino_y = destino_geom.x, destino_geom.y
 
         # Encontrar el nodo más cercano en la red de calles al punto de destino
-        destino_node = ox.distance.nearest_nodes(graph, X=destino_x, Y=destino_y, method='balltree')
+        destino_node = find_nearest_node(graph, (destino_y, destino_x))
 
         # Calcular la ruta más corta usando NetworkX
         ruta = nx.shortest_path(graph, origen_node, destino_node, weight='length')
@@ -106,4 +114,3 @@ if ruta_optima:
     # Mostrar el mapa
     st.markdown("### Mapa de la Ruta Óptima")
     st_folium(mapa)
-
