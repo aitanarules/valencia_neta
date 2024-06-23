@@ -4,9 +4,9 @@ import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
 import random
-from streamlit_folium import st_folium
 import streamlit as st
 import folium
+from streamlit_folium import st_folium
 
 # Configuración de la página
 st.set_page_config(page_title="Ruta al Contenedor", page_icon="🛤️")
@@ -52,6 +52,9 @@ except Exception as e:
 # Filtrar el DataFrame por el tipo de contenedor seleccionado
 contenedores_gdf = contenedores_gdf[contenedores_gdf['tipo'] == tipo_seleccionado]
 
+# Asegurar que los datos estén en EPSG:4326
+contenedores_gdf = contenedores_gdf.to_crs("EPSG:4326")
+
 # Seleccionar aleatoriamente el 10% de las filas
 if len(contenedores_gdf) > 0:
     contenedores_sampled = contenedores_gdf.sample(frac=0.1, random_state=1)
@@ -69,7 +72,7 @@ def find_nearest_node(graph, point):
     min_dist = float('inf')
     nearest_node = None
     for node in graph.nodes():
-        dist = ox.distance.great_circle_vec(graph.nodes[node]['y'], graph.nodes[node]['x'], point[1], point[0])
+        dist = ox.distance.great_circle_vec(graph.nodes[node]['y'], graph.nodes[node]['x'], point[0], point[1])
         if dist < min_dist:
             min_dist = dist
             nearest_node = node
@@ -100,10 +103,6 @@ for idx, contenedor in enumerate(contenedores_sampled.iterrows()):
     try:
         destino_geom = contenedor[1]['geometry']
 
-        # Convertir a WGS84 si es necesario
-        if contenedores_gdf.crs != "EPSG:4326":
-            destino_geom = destino_geom.to_crs("EPSG:4326")
-
         destino_x, destino_y = destino_geom.x, destino_geom.y
 
         # Encontrar el nodo más cercano en la red de calles al punto de destino
@@ -129,35 +128,33 @@ for idx, contenedor in enumerate(contenedores_sampled.iterrows()):
         st.error(f"Error al calcular la ruta hacia el contenedor en índice {idx}: {e}")
 
 # Visualizar la ruta óptima si se encontró
-# Visualizar la ruta óptima si se encontró
 if ruta_optima:
     st.markdown("### Ruta óptima encontrada")
     st.write(f"Distancia aproximada: {distancia_minima:.2f} metros.")
 
-    # Crear un mapa centrado en el origen y el contenedor cercano
+    # Crear un mapa centrado en la coordenada de origen
+    mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
+
+    # Añadir el marcador del punto de origen
+    folium.Marker(
+        location=[coordenada_origen[0], coordenada_origen[1]],
+        popup='Origen',
+        icon=folium.Icon(color='blue', icon='info-sign')
+    ).add_to(mapa)
+
+    # Añadir el marcador del contenedor cercano
     if contenedor_cercano is not None:
-        mapa = folium.Map(location=[coordenada_origen[0], coordenada_origen[1]], zoom_start=14)
-
-        # Añadir el marcador del punto de origen
-        folium.Marker(
-            location=[coordenada_origen[0], coordenada_origen[1]],
-            popup='Origen',
-            icon=folium.Icon(color='blue', icon='info-sign')
-        ).add_to(mapa)
-
-        # Añadir el marcador del contenedor cercano
         folium.Marker(
             location=[contenedor_cercano.y, contenedor_cercano.x],
             popup='Contenedor Cercano',
             icon=folium.Icon(color='green', icon='info-sign')
         ).add_to(mapa)
 
-        # Añadir la ruta óptima
-        ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
-        folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
+    # Añadir la ruta óptima
+    ruta_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in ruta_optima]
+    folium.PolyLine(ruta_coords, color='red', weight=5, opacity=0.7).add_to(mapa)
 
-        # Mostrar el mapa
-        st.markdown("### Mapa de la Ruta Óptima")
-        st_folium(mapa)
-    else:
-        st.warning("No se encontró un contenedor cercano para visualizar la ruta.")
+    # Mostrar el mapa
+    st.markdown("### Mapa de la Ruta Óptima")
+    st.markdown(f"Distancia aproximada: {distancia_minima:.2f} metros.")
+    st_folium(mapa)
