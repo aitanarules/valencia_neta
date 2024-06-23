@@ -8,7 +8,7 @@ st.sidebar.header("Mapa")
 st.write("""Este mapa de València muestra las ubicaciones de los diferentes contenedores y papeleras repartidos por la ciudad. Los datos han sido
          obtenidos desde el [`Portal de dades obertes de València`](https://valencia.opendatasoft.com/pages/home/) """)
 
-html_file_path = "C:/Users/34686/3CD - 23_24/EDM/recicla/processed_data/mapa_contenedores_valencia.html"
+html_file_path = "./mapa_contenedores_valencia.html"
 
 try:
     with open(html_file_path, 'r', encoding='utf-8') as html_file:
