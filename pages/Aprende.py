@@ -15,7 +15,7 @@ df = pd.read_csv("./data/amount_wasted_original.csv")
 
 try:
     countries = st.multiselect(
-        "Choose countries", df['Country or Area'].unique(), ["Albania", "Algeria"]
+        "Choose countries", df['Country or Area'].unique(), ["Albania"]
     )
     if not countries:
         st.error("Please select at least one country.")
