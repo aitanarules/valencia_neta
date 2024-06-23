@@ -22,11 +22,12 @@ try:
     if not countries:
         st.error("Selecciona al menos un país, por favor.")
     else:
-        data_selected = df[df['Country or Area'].isin(countries)]
+        # Usar .loc para evitar SettingWithCopyWarning
+        data_selected = df.loc[df['Country or Area'].isin(countries)]
 
         # Convertir unidades si es necesario
-        # Suponiendo que queremos mostrar 'Value' en unidades de 1000 tonnes
-        data_selected['Value'] = data_selected['Value']
+        # Suponiendo que queremos mostrar 'Value' en unidades de 1000 toneladas
+        data_selected.loc[:, 'Value'] = data_selected['Value']
 
         st.write("### Cantidad de residuos registrados (en toneladas)")
         st.write(data_selected)
