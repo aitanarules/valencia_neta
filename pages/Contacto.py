@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+from datetime import datetime
 
 # Configuración de la página
 st.set_page_config(page_title="Contacta", page_icon="📞")
@@ -6,9 +8,6 @@ st.set_page_config(page_title="Contacta", page_icon="📞")
 st.markdown("# Contacta")
 st.sidebar.header("Contacta")
 st.write("¿Has visto un contenedor que requiera de atención? ¡Ponte en contacto! De esta forma podremos optimizar los esfuerzos municipales.")
-
-# Define la dirección de correo
-email_address = "tucorreo@example.com"  # Reemplaza esto con la dirección de correo real
 
 # Estilos CSS
 css_style = """
@@ -47,18 +46,46 @@ header {visibility: hidden;}
 </style>
 """
 
-# Formulario de contacto
-contact_form = f"""
-<form action="https://formsubmit.co/{email_address}" method="POST">
-    <input type="hidden" name="_captcha" value="false">
+# Define la función para guardar los datos en un CSV
+def save_to_csv(data):
+    df = pd.DataFrame([data])
+    with open("comments.csv", "a") as f:
+        df.to_csv(f, header=f.tell()==0, index=False)
+
+# Si el formulario es enviado, procesa los datos
+if st.button("Enviar"):
+    name = st.text_input("Tu nombre")
+    email = st.text_input("Tu email")
+    location = st.text_input("La ubicación del contenedor")
+    message = st.text_area("Tu mensaje aquí.")
+
+    if st.button("Enviar"):
+        if name and email and location and message:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            data = {
+                "name": name,
+                "email": email,
+                "location": location,
+                "message": message,
+                "timestamp": timestamp
+            }
+            save_to_csv(data)
+            st.success("¡Formulario enviado correctamente!")
+        else:
+            st.error("Por favor, completa todos los campos.")
+
+# Renderiza los estilos y el formulario en la página
+st.markdown(css_style, unsafe_allow_html=True)
+
+# Renderiza el formulario HTML
+form = """
+<form action="" method="post">
     <input type="text" name="name" placeholder="Tu nombre" required>
     <input type="email" name="email" placeholder="Tu email" required>
-    <input type="text" name="text" placeholder="La ubicación del contenedor" required>
+    <input type="text" name="location" placeholder="La ubicación del contenedor" required>
     <textarea name="message" placeholder="Tu mensaje aquí." required></textarea>
     <button type="submit">Enviar</button>
 </form>
 """
 
-# Renderiza los estilos y el formulario en la página
-st.markdown(css_style, unsafe_allow_html=True)
-st.markdown(contact_form, unsafe_allow_html=True)
+st.markdown(form, unsafe_allow_html=True)
