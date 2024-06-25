@@ -1,4 +1,7 @@
 import streamlit as st
+from sqlalchemy import create_engine, Column, String, Text, Integer
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 # Configuración de la página
 st.set_page_config(page_title="Contacta", page_icon="📞")
@@ -7,58 +10,86 @@ st.markdown("# Contacta")
 st.sidebar.header("Contacta")
 st.write("¿Has visto un contenedor que requiera de atención? ¡Ponte en contacto! De esta forma podremos optimizar los esfuerzos municipales.")
 
-# Define la dirección de correo
-email_address = "tucorreo@example.com"  # Reemplaza esto con la dirección de correo real
+# Crear una conexión a la base de datos SQLite
+engine = create_engine('sqlite:///contactos.db')
+Base = declarative_base()
 
-# Estilos CSS
-css_style = """
-<style>
-/* Style inputs with type="text", select elements and textareas */
-input[type=message], input[type=email], input[type=text], textarea {
-  width: 100%; /* Full width */
-  padding: 12px; /* Some padding */ 
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
-  box-sizing: border-box; /* Make sure that padding and width stays in place */
-  margin-top: 6px; /* Add a top margin */
-  margin-bottom: 16px; /* Bottom margin */
-  resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
-}
+# Definir la estructura de la tabla en la base de datos
+class Contacto(Base):
+    __tablename__ = 'contactos'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False)
+    ubicacion = Column(String(100), nullable=False)
+    mensaje = Column(Text, nullable=False)
 
-/* Style the submit button with a specific background color etc */
-button[type=submit] {
-  background-color: #04AA6D;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+# Crear la tabla en la base de datos si no existe
+Base.metadata.create_all(engine)
 
-/* When moving the mouse over the submit button, add a darker green color */
-button[type=submit]:hover {
-  background-color: #45a049;
-}
+# Crear una sesión de base de datos
+Session = sessionmaker(bind=engine)
+session = Session()
 
-/* Hide Streamlit Branding */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
+# Controladores de estado para el formulario
+form_state = st.session_state.setdefault('form_state', {
+    'nombre': '',
+    'email': '',
+    'ubicacion': '',
+    'mensaje': ''
+})
 
 # Formulario de contacto
-contact_form = f"""
-<form action="https://formsubmit.co/{email_address}" method="POST">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="text" name="name" placeholder="Tu nombre" required>
-    <input type="email" name="email" placeholder="Tu email" required>
-    <input type="text" name="text" placeholder="La ubicación del contenedor" required>
-    <textarea name="message" placeholder="Tu mensaje aquí." required></textarea>
-    <button type="submit">Enviar</button>
-</form>
-"""
+with st.form(key='contact_form'):
+    nombre = st.text_input("Nombre", value=form_state['nombre'])
+    email = st.text_input("Email", value=form_state['email'])
+    ubicacion = st.text_input("La ubicación del contenedor.", value=form_state['ubicacion'])
+    mensaje = st.text_area("Tu mensaje aquí.", value=form_state['mensaje'])
+    submit_button = st.form_submit_button(label='Enviar')
 
-# Renderiza los estilos y el formulario en la página
-st.markdown(css_style, unsafe_allow_html=True)
-st.markdown(contact_form, unsafe_allow_html=True)
+# Validación de campos
+if submit_button:
+    if not nombre:
+        st.error("Por favor, introduce tu nombre.")
+    elif not email:
+        st.error("Por favor, introduce tu email.")
+    elif not ubicacion:
+        st.error("Por favor, introduce la ubicación del contenedor.")
+    elif not mensaje:
+        st.error("Por favor, introduce tu mensaje.")
+    else:
+        # Guardar los datos en la base de datos
+        nuevo_contacto = Contacto(nombre=nombre, email=email, ubicacion=ubicacion, mensaje=mensaje)
+        session.add(nuevo_contacto)
+        session.commit()
+        st.success("¡Tu mensaje ha sido enviado con éxito!")
+        
+        # Limpiar los campos del formulario después de enviar
+        form_state['nombre'] = ''
+        form_state['email'] = ''
+        form_state['ubicacion'] = ''
+        form_state['mensaje'] = ''
+
+# Mostrar los datos almacenados (opcional, solo para demostración)
+st.markdown("### Reseñas")
+
+contactos = session.query(Contacto).all()
+
+# Verificar si hay contactos
+if contactos:
+    for contacto in contactos:
+        st.markdown(f"""
+        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+            <h4 style="color: #4CAF50;">{contacto.nombre}</h4>
+            <p><strong>Ubicación:</strong> {contacto.ubicacion}</p>
+            <p><strong>Mensaje:</strong> {contacto.mensaje}</p>
+        </div>
+        """, unsafe_allow_html=True)
+else:
+    st.write("No hay reseñas disponibles.")
+
+# Botón para borrar los datos
+if st.button("Borrar todas las reseñas"):
+    session.query(Contacto).delete()
+    session.commit()
+    st.warning("Todas las reseñas han sido borradas.")
+    st.experimental_rerun()  # Recargar la aplicación para reflejar los cambios
